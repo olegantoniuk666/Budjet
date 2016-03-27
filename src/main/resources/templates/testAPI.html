@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>testAPI</title>
+    <meta http-equiv="Content-Type" content="application/json; charset=UTF-8" />
+    
+</head>
+<body>
+<p th:text="${greeting}" />
+
+find user details with form
+<form th:action="@{/userDetails}" method="get" title="/getUserDetails form" >
+  minor: <input type="text" name="minor"/><br/>
+  major: <input type="text" name="major"/><br/>
+ <input type="submit" value="find"/> 
+</form>
+
+add user details
+<form th:action="@{/registerUser}" method="post" title="/createUserSasha form">
+  userId(FB)*: <input type="text" name="userId"/><br/>
+  userName(Application)*: <input type="text" name="userName"/><br/>
+  first name: <input type="text" name="firstName"/><br/>
+  last name: <input type="text" name="lastName"/><br/>
+  email: <input type="email" name="email"/><br/>
+  
+  <input type="submit" value="Register User"/>
+</form>
+
+
+</body>
+</html>

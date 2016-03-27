@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        //Required repos
+        mavenCentral()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+    }
+    dependencies {
+        //Required dependency for spring-boot plugin
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.4.RELEASE")
+    }
+}
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'spring-boot'
+war {
+    baseName = 'companies'
+    version =  '0.1'
+}
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+}
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.0.1")
+    compile('javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1')
+    compile('taglibs:standard:1.1.2')
+    //Required dependency for JSP
+    providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    testCompile(
+    		"junit:junit",
+    		"org.springframework:spring-test:4.1.6.RELEASE",
+    		"org.assertj:assertj-core:3.1.0"
+    )
+}

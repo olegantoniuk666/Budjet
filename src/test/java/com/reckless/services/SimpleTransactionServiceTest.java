@@ -32,6 +32,8 @@ public class SimpleTransactionServiceTest {
 	@Autowired
 	private TransactionService transactionService;
 	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
 	Environment environment;
 	@Autowired
 	Mongo mongo;
@@ -89,4 +91,14 @@ public class SimpleTransactionServiceTest {
 
 	}
 
+	@Test
+	public  void whenDeletingCreatedTransaction(){
+		Transaction transaction = new Transaction();
+		transaction.setCategory("GansTransaction");
+		transaction.setDate(date);
+		transactionService.addTransaction(transaction);
+		transactionService.deleteTransaction(transaction);
+		Assertions.assertThat(transactionRepository.findAll().isEmpty());
+		
+	}
 }

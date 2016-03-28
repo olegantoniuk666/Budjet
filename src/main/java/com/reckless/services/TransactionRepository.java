@@ -6,5 +6,6 @@ import com.reckless.businessobject.Transaction;
 
 
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
+public void delete(Transaction entity);
 
 }

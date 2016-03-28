@@ -12,5 +12,8 @@ public interface CostItemService {
 	
 	public List<CostItem> getAllCostItems();
 	
+	public void removeByCategory(String category);
+	
+	
 
 }

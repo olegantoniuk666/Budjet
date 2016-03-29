@@ -19,6 +19,12 @@ public class SimpleTransactionService implements TransactionService {
 		transactionRapository.save(transaction);
 	}
 
+	public List<Transaction> getAllTransactions() {
+		List<Transaction> allTransactions = new ArrayList<Transaction>();
+		allTransactions = transactionRapository.findAll();
+		return allTransactions;
+	}
+
 	public List<Transaction> getTransactionsByCategory(String category) {
 		List<Transaction> sortedByCategory = new ArrayList<Transaction>(100);
 		sortedByCategory = transactionRapository.findAll();
@@ -73,35 +79,71 @@ public class SimpleTransactionService implements TransactionService {
 
 	}
 
-	public int getTransactionSumByIncome() {
-		List<Transaction> incomeTransaction = new ArrayList<Transaction>();
-		incomeTransaction = transactionRapository.findAll();
-		Iterator<Transaction> iter = incomeTransaction.iterator();
-		int incomeSum = 0;
+	public int getIncomeTransactionsQuantity() {
+		List<Transaction> incomeTransactions = new ArrayList<Transaction>();
+		int sum = 0;
+		incomeTransactions = transactionRapository.findAll();
+		Iterator<Transaction> iter = incomeTransactions.iterator();
 		while (iter.hasNext()) {
 			Transaction transaction = iter.next();
-			if (transaction.getIsIncome().equals(true)) {
-				incomeSum = incomeSum + transaction.getQuantity();
-			} else {
-				continue;
-			}
+			if (transaction.getIsIncome()==false) {
+				iter.remove();
+			} 
 		}
-		return incomeSum;
+		
+		for(Transaction transaction:incomeTransactions){
+			sum = sum+transaction.getQuantity();
+		}
+		System.out.println(sum);
+		return sum;
+		
 	}
 
-	public int getTransactionSumWithoutIncome() {
-		List<Transaction> incomeTransaction = new ArrayList<Transaction>();
-		incomeTransaction = transactionRapository.findAll();
-		Iterator<Transaction> iter = incomeTransaction.iterator();
-		int withoutIncomeSum = 0;
+	public int getExpenseTransactionsQuantity() {
+		List<Transaction> expenseTransactions = new ArrayList<Transaction>();
+		int sum = 0;
+		expenseTransactions = transactionRapository.findAll();
+		Iterator<Transaction> iter = expenseTransactions.iterator();
 		while (iter.hasNext()) {
 			Transaction transaction = iter.next();
-			if (transaction.getIsIncome().equals(false)) {
-				withoutIncomeSum = withoutIncomeSum + transaction.getQuantity();
-			} else {
-				continue;
-			}
+			if (transaction.getIsIncome()) {
+				iter.remove();
+			} else{continue;}
 		}
-		return withoutIncomeSum;
+		
+		for(Transaction transaction:expenseTransactions){
+			sum = sum + transaction.getQuantity();
+		}
+		return sum;
+	
 	}
+
+	public List<Transaction> getIncomeTransactions() {
+		List<Transaction> incomeTransactions = new ArrayList<Transaction>();
+		incomeTransactions = transactionRapository.findAll();
+		Iterator<Transaction> iterator = incomeTransactions.iterator();
+		while (iterator.hasNext()) {
+			Transaction iterTransaction = iterator.next();
+			if (iterTransaction.getIsIncome()==false) {
+				iterator.remove();
+			} 
+
+		}
+		return incomeTransactions;
+	}
+
+	public List<Transaction> getExpenseTransactions() {
+		List<Transaction> expenseTransactions = new ArrayList<Transaction>();
+		expenseTransactions = transactionRapository.findAll();
+		Iterator<Transaction> iterator = expenseTransactions.iterator();
+		while (iterator.hasNext()) {
+			Transaction iterTransaction = iterator.next();
+			if (iterTransaction.getIsIncome()) {
+				iterator.remove();
+			}
+
+		}
+		return expenseTransactions;
+	}
+
 }

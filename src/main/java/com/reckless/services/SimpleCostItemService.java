@@ -1,5 +1,6 @@
 package com.reckless.services;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,18 @@ public class SimpleCostItemService implements CostItemService {
 	public List<CostItem> getAllCostItems() {
 		List<CostItem> costItems = costItemRepository.findAll();
 		return costItems;
+	}
+
+	public void removeByCategory(String category) {
+		List<CostItem> costItems = costItemRepository.findAll();
+		Iterator<CostItem> iter = costItems.iterator();
+		while (iter.hasNext()){
+			CostItem item = iter.next();
+			if (item.getCategory().equals(category)){
+				iter.remove();
+			}
+		}
+		
 	}
 
 }

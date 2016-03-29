@@ -20,8 +20,7 @@ import com.reckless.services.TransactionService;
 @org.springframework.context.annotation.Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan(basePackageClasses = { Application.class })
-//@ComponentScan(basePackageClasses = { TransactionService.class })
-//@EnableMongoRepositories(basePackages={"com.reckless.services"})
+
 public class SpringContainerConfiguration extends AbstractMongoConfiguration {
 
 	@Autowired

@@ -33,11 +33,10 @@ public class SimpleCostItemServiceTest {
 	@Autowired
 	Mongo mongo;
 	
-	@Before
-	@After
-	public void clean(){
-		mongo.dropDatabase((environment.getProperty("mongodb.db")));
-	}
+//	@Before
+//	public void clean(){
+//		mongo.dropDatabase((environment.getProperty("mongodb.db")));
+//	}
 	@Test
 	public void whenAdding_newCostItemCanBeRead() {
 		

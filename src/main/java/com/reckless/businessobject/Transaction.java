@@ -22,6 +22,12 @@ public class Transaction {
 		this.date = date;
 		this.isIncome = isIncome;
 	}
+	public Transaction(String category, int quantity, Date date) {
+		super();
+		this.category = category;
+		this.quantity = quantity;
+		this.date = date;
+	}
 
 	@Id
 	private String id;

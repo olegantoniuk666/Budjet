@@ -1,8 +1,11 @@
 package com.reckless.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import junit.framework.Assert;
 
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -39,14 +42,15 @@ public class SimpleTransactionServiceTest {
 	Mongo mongo;
 
 	@Before
-	@After
-	public void clean() {
-		mongo.dropDatabase((environment.getProperty("mongodb.db")));
+	public void cleanDB() {
+		//mongo.dropDatabase((environment.getProperty("mongodb.db")));
+		transactionRepository.deleteAll();
+		
 	}
 
 	public Date date = new Date(1986, 7, 20);
 	public LocalDate localDate = LocalDate.now();
-
+	
 	@Test
 	public void whenAddedTransactionCanBeReadByCategory() {
 		Transaction transaction = new Transaction();
@@ -61,7 +65,6 @@ public class SimpleTransactionServiceTest {
 		}
 
 	}
-
 	@Test
 	public void whenAddedTransactionCanBeReadByDate() {
 		Transaction transaction = new Transaction();
@@ -76,7 +79,6 @@ public class SimpleTransactionServiceTest {
 		}
 
 	}
-
 	@Test
 	public void whenAddedTransactionCanBeReadByLocalDate() {
 		Transaction transaction = new Transaction();
@@ -90,15 +92,70 @@ public class SimpleTransactionServiceTest {
 		}
 
 	}
-
 	@Test
-	public  void whenDeletingCreatedTransaction(){
+	public void whenDeletCreatedTransaction() {
+
 		Transaction transaction = new Transaction();
 		transaction.setCategory("GansTransaction");
 		transaction.setDate(date);
 		transactionService.addTransaction(transaction);
 		transactionService.deleteTransaction(transaction);
 		Assertions.assertThat(transactionRepository.findAll().isEmpty());
+	}
+	
+	@Test 
+	public void whenGettingTransactionQuantityByIncome(){
+		Transaction gansTransaction = new Transaction("Gans", 50, date, true);
+		Transaction kateTransaction = new Transaction("Kate", 50, date);
+		transactionService.addTransaction(gansTransaction);
+		transactionService.addTransaction(kateTransaction);
+		int allIncome = transactionService.getIncomeTransactionsQuantity();
+		Assertions.assertThat(transactionService.getIncomeTransactionsQuantity()).isEqualTo(50);
+		//Assert.assertEquals(allIncome, 50);
 		
+		
+	}
+	@Test
+	public void whenGettingExpenseTransactionsQuantity(){
+		Transaction gansTransaction = new Transaction("GansExpances",100, date);
+		Transaction kateTransaction = new Transaction("KateExpances", 150, date);
+		transactionService.addTransaction(gansTransaction);
+		transactionService.addTransaction(kateTransaction);
+		Assertions.assertThat(transactionService.getExpenseTransactionsQuantity()).isEqualTo(250);
+	}
+	@Test
+	public void whenGettingAllTransactions(){
+		for(int i=1;i<21;i++){
+			Transaction tr = new Transaction();
+			transactionService.addTransaction(tr);
+		}
+		List<Transaction> allTransactions = new ArrayList<Transaction>();
+		allTransactions = transactionService.getAllTransactions();
+		Assertions.assertThat(allTransactions.size()).isEqualTo(20);
+	}
+	
+	@Test
+	public void whenGettingAllIncomeTransactions(){
+		for(int i =1;i<11;i++){
+			Transaction incomeTransaction = new Transaction("GansSalary"+i,100,date,true);
+			Transaction expanceTransaction = new Transaction("KateExpance"+i,100,date);
+			transactionService.addTransaction(incomeTransaction);
+			transactionService.addTransaction(expanceTransaction);
+		}
+		List <Transaction> incomeTransactions = new ArrayList<Transaction>();
+				incomeTransactions = transactionService.getIncomeTransactions();
+				Assertions.assertThat(incomeTransactions.size()).isEqualTo(10);
+	}
+	@Test
+	public void whenGettingAllExpenseTransactions(){
+		for(int i =1;i<11;i++){
+			Transaction incomeTransaction = new Transaction("GansSalary"+i,100,date,true);
+			Transaction expanceTransaction = new Transaction("KateExpance"+i,100,date);
+			transactionService.addTransaction(incomeTransaction);
+			transactionService.addTransaction(expanceTransaction);
+		}
+		List<Transaction>expenseTransactions = new ArrayList<Transaction>();
+		expenseTransactions = transactionService.getExpenseTransactions();
+		Assertions.assertThat(expenseTransactions.size()).isEqualTo(10);
 	}
 }

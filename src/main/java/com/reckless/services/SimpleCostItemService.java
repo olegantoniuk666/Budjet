@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.reckless.businessobject.CostItem;
+import com.reckless.businessobject.Transaction;
 
 public class SimpleCostItemService implements CostItemService {
 
@@ -21,7 +22,7 @@ public class SimpleCostItemService implements CostItemService {
 
 	public CostItem getCostItem(String category) {
 		List<CostItem> costItems = new ArrayList<CostItem>();
-				costItems = costItemRepository.getByCategory(category);
+		costItems = costItemRepository.getByCategory(category);
 		return costItems.get(0);
 	}
 
@@ -33,26 +34,53 @@ public class SimpleCostItemService implements CostItemService {
 	public void removeByCategory(String category) {
 		List<CostItem> costItems = costItemRepository.findAll();
 		Iterator<CostItem> iter = costItems.iterator();
-		while (iter.hasNext()){
+		while (iter.hasNext()) {
 			CostItem item = iter.next();
-			if (item.getCategory().equals(category)){
+			if (item.getCategory().equals(category)) {
 				iter.remove();
 			}
 		}
-		
+
 	}
 
-	@Override
 	public int getPercentByAllCostItems() {
-		List <CostItem> allCostItems = new ArrayList<CostItem>();
+		List<CostItem> allCostItems = new ArrayList<CostItem>();
 		allCostItems = costItemRepository.findAll();
 		Iterator<CostItem> iter = allCostItems.iterator();
-		int  planByAllItems =0;
-		while(iter.hasNext()){
+		int planByAllItems = 0;
+		while (iter.hasNext()) {
 			CostItem item = iter.next();
-			planByAllItems= planByAllItems+item.getPlan();
+			planByAllItems = planByAllItems + item.getPlanPercent();
 		}
 		return planByAllItems;
 	}
-	
+
+	public double getPlanByCategory(String category) {
+		CostItem item = getCostItem(category);
+		int plan = (transactionService.getIncomeTransactionsQuantity())
+				* (item.getPlanPercent()) / 100;
+		return plan;
+	}
+
+	@Override
+	public double getFactByCategory(String category) {
+		List<Transaction> sortedByCostItemCategory = new ArrayList<Transaction>();
+		sortedByCostItemCategory = transactionService
+				.getTransactionsByCategory(category);
+		int fakt = 0;
+		Iterator<Transaction> iter = sortedByCostItemCategory.iterator();
+		while (iter.hasNext()) {
+			Transaction transaction = iter.next();
+			fakt = fakt + transaction.getQuantity();
+
+		}
+		return fakt;
+
+	}
+
+	@Override
+	public double getBalanceByCategory(String category) {
+		double balance = getPlanByCategory(category)-getFactByCategory(category);
+		return balance;
+	}
 }

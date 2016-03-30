@@ -40,7 +40,7 @@ public class CostItemController {
 		if (category != null && plan!=0) {
 			CostItem item = new CostItem();
 			item.setCategory(category);
-			item.setPlan(plan);
+			item.setPlanPercent(plan);
 			costItemService.addCostItem(item);
 			model.addObject("costItem", item);
 		} else {

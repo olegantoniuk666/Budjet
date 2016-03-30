@@ -1,37 +1,49 @@
 package com.reckless.businessobject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
-
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 
+import com.reckless.services.TransactionService;
+
 public class CostItem implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private TransactionService transactionService;
+
 	public CostItem() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CostItem(String category, int plan) {
+	public CostItem(String category, int planPercent) {
 		super();
 		this.category = category;
-		this.plan = plan;
+		this.planPercent = planPercent;
+		
 	}
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
-		return "CostItem [ category=" + category + ", plan=" + plan + "id="+id +"]";
+		return "CostItem [ category=" + category + ", plan=" + planPercent
+				+ "id=" + id + "]";
 	}
+
 	@Id
 	private String id;
 	private String category;
-	private int plan;
+	private int planPercent;
+
+//	private int fakt;
+//	private int plan;
+//	private int balance;
 
 	public String getCategory() {
 		return category;
@@ -41,19 +53,17 @@ public class CostItem implements Serializable {
 		this.category = name;
 	}
 
-	public int getPlan() {
-		return plan;
+
+	public int getPlanPercent() {
+		return planPercent;
 	}
 
-	public void setPlan(int plan) {
-		this.plan = plan;
+	public void setPlanPercent(int planPercent) {
+		this.planPercent = planPercent;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, category, plan);
+	
 
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -74,9 +84,20 @@ public class CostItem implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (plan != other.plan)
+		if (planPercent != other.planPercent)
+			return false;
+		if (transactionService == null) {
+			if (other.transactionService != null)
+				return false;
+		} else if (!transactionService.equals(other.transactionService))
 			return false;
 		return true;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, category, planPercent);
+	}
+
+	
 }

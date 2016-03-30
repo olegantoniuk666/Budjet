@@ -16,6 +16,10 @@ public interface CostItemService {
 	
 	public int getPercentByAllCostItems();
 	
+	public double getPlanByCategory(String category);
+	public double getFactByCategory(String category);
+	public double getBalanceByCategory(String category);
+
 	
 
 }

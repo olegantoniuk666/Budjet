@@ -36,44 +36,36 @@ public class SimpleTransactionServiceTest {
 	private TransactionService transactionService;
 	@Autowired
 	private TransactionRepository transactionRepository;
-	@Autowired
-	Environment environment;
-	@Autowired
-	Mongo mongo;
 
+	
+	private Date date = new Date(1986, 7, 20);
+	private LocalDate localDate = LocalDate.now();
+	private Transaction incomeTransaction = new Transaction("gansSalary",1000,localDate,true);
+	private Transaction expenseTransaction = new Transaction("food", 100, date);
+	
 	@Before
-	public void cleanDB() {
-		//mongo.dropDatabase((environment.getProperty("mongodb.db")));
+	public void setupDB() {
 		transactionRepository.deleteAll();
-		
+		transactionService.addTransaction(expenseTransaction);
+		transactionService.addTransaction(incomeTransaction);
 	}
 
-	public Date date = new Date(1986, 7, 20);
-	public LocalDate localDate = LocalDate.now();
 	
 	@Test
 	public void whenAddedTransactionCanBeReadByCategory() {
-		Transaction transaction = new Transaction();
-		transaction.setDate(date);
-		transaction.setCategory("Food");
-		transactionService.addTransaction(transaction);
 		List<Transaction> sortedByCategory = transactionService
-				.getTransactionsByCategory("Food");
+				.getTransactionsByCategory("food");
+		Assertions.assertThat(sortedByCategory.size()).isEqualTo(1);
 		for (Transaction actualTransaction : sortedByCategory) {
-			Assertions.assertThat(transaction.getCategory()).isEqualTo(
-					actualTransaction.getCategory());
+			Assertions.assertThat(actualTransaction.getCategory()).isEqualTo(expenseTransaction.getCategory());
 		}
-
+		
 	}
 	@Test
 	public void whenAddedTransactionCanBeReadByDate() {
-		Transaction transaction = new Transaction();
-		transaction.setDate(date);
-		transaction.setCategory("alcohol");
-		transactionService.addTransaction(transaction);
 		List<Transaction> sortedByDate = transactionService
 				.getTransactionsByDate(date);
-
+		Assertions.assertThat(sortedByDate.size()).isEqualTo(1);
 		for (Transaction trans : sortedByDate) {
 			Assertions.assertThat(trans.getDate().equals(date));
 		}
@@ -81,81 +73,48 @@ public class SimpleTransactionServiceTest {
 	}
 	@Test
 	public void whenAddedTransactionCanBeReadByLocalDate() {
-		Transaction transaction = new Transaction();
-		transaction.setLocalDate(localDate);
-		transaction.setCategory("Drugs");
-		transactionService.addTransaction(transaction);
 		List<Transaction> sortedByLocalDate = transactionService
 				.getTransactionsByLocalDate(localDate);
+		Assertions.assertThat(sortedByLocalDate.size()).isEqualTo(1);
 		for (Transaction trans : sortedByLocalDate) {
+			System.out.println();
+			System.out.println(trans.toString());
+			System.out.println();
 			Assertions.assertThat(trans.getLocalDate().isEqual(localDate));
 		}
 
 	}
 	@Test
-	public void whenDeletCreatedTransaction() {
-
-		Transaction transaction = new Transaction();
-		transaction.setCategory("GansTransaction");
-		transaction.setDate(date);
-		transactionService.addTransaction(transaction);
-		transactionService.deleteTransaction(transaction);
-		Assertions.assertThat(transactionRepository.findAll().isEmpty());
-	}
-	
+	public void whenCanDeleteCreatedTransaction() {
+		transactionService.deleteTransaction(incomeTransaction);
+		transactionService.deleteTransaction(expenseTransaction);
+		Assertions.assertThat(transactionRepository.count()).isEqualTo(0);
+	}	
 	@Test 
 	public void whenGettingTransactionQuantityByIncome(){
-		Transaction gansTransaction = new Transaction("Gans", 50, date, true);
-		Transaction kateTransaction = new Transaction("Kate", 50, date);
-		transactionService.addTransaction(gansTransaction);
-		transactionService.addTransaction(kateTransaction);
 		int allIncome = transactionService.getIncomeTransactionsQuantity();
-		Assertions.assertThat(transactionService.getIncomeTransactionsQuantity()).isEqualTo(50);
-		//Assert.assertEquals(allIncome, 50);
-		
-		
+		Assertions.assertThat(transactionService.getIncomeTransactionsQuantity()).isEqualTo(1000);
 	}
 	@Test
 	public void whenGettingExpenseTransactionsQuantity(){
-		Transaction gansTransaction = new Transaction("GansExpances",100, date);
-		Transaction kateTransaction = new Transaction("KateExpances", 150, date);
-		transactionService.addTransaction(gansTransaction);
-		transactionService.addTransaction(kateTransaction);
-		Assertions.assertThat(transactionService.getExpenseTransactionsQuantity()).isEqualTo(250);
+		Assertions.assertThat(transactionService.getExpenseTransactionsQuantity()).isEqualTo(100);
 	}
 	@Test
 	public void whenGettingAllTransactions(){
-		for(int i=1;i<21;i++){
-			Transaction tr = new Transaction();
-			transactionService.addTransaction(tr);
-		}
 		List<Transaction> allTransactions = new ArrayList<Transaction>();
 		allTransactions = transactionService.getAllTransactions();
-		Assertions.assertThat(allTransactions.size()).isEqualTo(20);
+		Assertions.assertThat(allTransactions.size()).isEqualTo(2);
 	}
-	
 	@Test
 	public void whenGettingAllIncomeTransactions(){
-		for(int i =1;i<11;i++){
-			Transaction incomeTransaction = new Transaction("GansSalary"+i,100,date,true);
-			Transaction expanceTransaction = new Transaction("KateExpance"+i,100,date);
-			transactionService.addTransaction(incomeTransaction);
-			transactionService.addTransaction(expanceTransaction);
-		}
 		List <Transaction> incomeTransactions = new ArrayList<Transaction>();
 				incomeTransactions = transactionService.getIncomeTransactions();
-				Assertions.assertThat(incomeTransactions.size()).isEqualTo(10);
+				Assertions.assertThat(incomeTransactions.size()).isEqualTo(1);
 	}
 	@Test
 	public void whenGettingAllExpenseTransactions(){
-		for(int i =1;i<11;i++){
-			Transaction incomeTransaction = new Transaction("GansSalary"+i,100,date,true);
-			Transaction expanceTransaction = new Transaction("KateExpance"+i,100,date);
-			transactionService.addTransaction(incomeTransaction);
-			transactionService.addTransaction(expanceTransaction);
-		}
 		List<Transaction>expenseTransactions = new ArrayList<Transaction>();
 		expenseTransactions = transactionService.getExpenseTransactions();
-		Assertions.assertThat(expenseTransactions.size()).isEqualTo(10);
+		Assertions.assertThat(expenseTransactions.size()).isEqualTo(1);
 	}
 }

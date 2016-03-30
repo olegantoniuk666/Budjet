@@ -14,7 +14,13 @@ public class Transaction {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	public Transaction(String category, int quantity, LocalDate localDate, Boolean isIncome) {
+		super();
+		this.category = category;
+		this.quantity = quantity;
+		this.date = DateUtils.asDate(localDate);
+		this.isIncome = isIncome;
+	}
 	public Transaction(String category, int quantity, Date date, Boolean isIncome) {
 		super();
 		this.category = category;
@@ -117,6 +123,11 @@ public class Transaction {
 		if (quantity != other.quantity)
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Transaction [category=" + category + ", quantity=" + quantity
+				+ ", date=" + date + ", isIncome=" + isIncome + "]";
 	}
 
 }

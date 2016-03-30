@@ -39,7 +39,6 @@ public class SimpleCostItemServiceTest {
 //	}
 	@Test
 	public void whenAdding_newCostItemCanBeRead() {
-		
 		CostItem costItem = new CostItem();
 		costItem.setCategory("CostItem");
 		costItem.setPlan(10);

@@ -26,8 +26,7 @@ public class SimpleTransactionService implements TransactionService {
 	}
 
 	public List<Transaction> getTransactionsByCategory(String category) {
-		List<Transaction> sortedByCategory = new ArrayList<Transaction>(100);
-		sortedByCategory = transactionRapository.findAll();
+		List<Transaction> sortedByCategory =transactionRapository.findAll();
 		Iterator<Transaction> iter = sortedByCategory.iterator();
 		while (iter.hasNext()) {
 			Transaction transaction = iter.next();

@@ -14,6 +14,8 @@ public interface CostItemService {
 	
 	public void removeByCategory(String category);
 	
+	public int getPercentByAllCostItems();
+	
 	
 
 }

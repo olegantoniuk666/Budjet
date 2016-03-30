@@ -29,30 +29,31 @@ public class SimpleCostItemServiceTest {
 	@Autowired
 	private CostItemService costItemService;
 	@Autowired
-	Environment environment;
-	@Autowired
-	Mongo mongo;
+	private CostItemRepository costItemRepository;
 	
-//	@Before
-//	public void clean(){
-//		mongo.dropDatabase((environment.getProperty("mongodb.db")));
-//	}
+	private CostItem testCostItem;
+	
+	@Before
+	public void setupDB(){
+		costItemRepository.deleteAll();
+		testCostItem = new CostItem("Automobile", 20);
+		costItemService.addCostItem(testCostItem);
+	}
 	@Test
 	public void whenAdding_newCostItemCanBeRead() {
-		CostItem costItem = new CostItem();
-		costItem.setCategory("CostItem");
-		costItem.setPlan(10);
-		costItemService.addCostItem(costItem);
-		CostItem actualCostItem = costItemService.getCostItem("CostItem");
-		Assertions.assertThat(actualCostItem).isEqualTo(costItem);
+		CostItem actualCostItem =  costItemService.getCostItem("Automobile");
+		Assertions.assertThat(actualCostItem).isEqualTo(testCostItem);
 	}
 	@Test
 	public void when_CostItemRemoveByCategoty(){
-		CostItem item = new CostItem();
-		item.setCategory("GansItem");
-		costItemService.addCostItem(item);
-		costItemService.removeByCategory("GansItem");
+		
+		costItemService.removeByCategory("Automobile");
 		Assertions.assertThat(costItemService.getAllCostItems().isEmpty());
+	}
+	@Test
+	public void whenPlanByAllCostItemsCanBeRead(){
+		Assertions.assertThat(costItemService.getPercentByAllCostItems()).isEqualTo(20);
+		
 	}
 	
 }

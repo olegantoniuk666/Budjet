@@ -1,5 +1,6 @@
 package com.reckless.services;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import com.reckless.businessobject.CostItem;
 public class SimpleCostItemService implements CostItemService {
 
 	@Autowired
+	private TransactionService transactionService;
+	@Autowired
 	private CostItemRepository costItemRepository;
 
 	public void addCostItem(CostItem item) {
@@ -17,13 +20,9 @@ public class SimpleCostItemService implements CostItemService {
 	}
 
 	public CostItem getCostItem(String category) {
-		List<CostItem> costItems = costItemRepository.findAll();
-		for (CostItem item : costItems) {
-			if (item.getCategory().equals(category)) {
-				return item;
-			}
-		}
-		return null;
+		List<CostItem> costItems = new ArrayList<CostItem>();
+				costItems = costItemRepository.getByCategory(category);
+		return costItems.get(0);
 	}
 
 	public List<CostItem> getAllCostItems() {
@@ -43,4 +42,17 @@ public class SimpleCostItemService implements CostItemService {
 		
 	}
 
+	@Override
+	public int getPercentByAllCostItems() {
+		List <CostItem> allCostItems = new ArrayList<CostItem>();
+		allCostItems = costItemRepository.findAll();
+		Iterator<CostItem> iter = allCostItems.iterator();
+		int  planByAllItems =0;
+		while(iter.hasNext()){
+			CostItem item = iter.next();
+			planByAllItems= planByAllItems+item.getPlan();
+		}
+		return planByAllItems;
+	}
+	
 }

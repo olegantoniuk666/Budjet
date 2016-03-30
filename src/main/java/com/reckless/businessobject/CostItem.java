@@ -3,18 +3,32 @@ package com.reckless.businessobject;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.annotation.Generated;
+
+
 
 import org.springframework.data.annotation.Id;
 
 public class CostItem implements Serializable {
+	public CostItem() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public CostItem(String category, int plan) {
+		super();
+		this.category = category;
+		this.plan = plan;
+	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		return "CostItem [ category=" + category + ", plan=" + plan + "id="+id +"]";
 	}
-
 	@Id
-	
 	private String id;
 	private String category;
 	private int plan;

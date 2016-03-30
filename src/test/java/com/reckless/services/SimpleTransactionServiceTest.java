@@ -5,26 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.Assert;
+
+
 
 import org.assertj.core.api.Assertions;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
 
-import com.mongodb.Mongo;
-import com.reckless.Application;
 import com.reckless.businessobject.Transaction;
-import com.reckless.config.DateUtils;
 import com.reckless.config.SpringContainerConfiguration;
 
 @EnableAutoConfiguration
@@ -38,6 +31,7 @@ public class SimpleTransactionServiceTest {
 	private TransactionRepository transactionRepository;
 
 	
+	@SuppressWarnings("deprecation")
 	private Date date = new Date(1986, 7, 20);
 	private LocalDate localDate = LocalDate.now();
 	private Transaction incomeTransaction = new Transaction("gansSalary",1000,localDate,true);
@@ -92,7 +86,6 @@ public class SimpleTransactionServiceTest {
 	}	
 	@Test 
 	public void whenGettingTransactionQuantityByIncome(){
-		int allIncome = transactionService.getIncomeTransactionsQuantity();
 		Assertions.assertThat(transactionService.getIncomeTransactionsQuantity()).isEqualTo(1000);
 	}
 	@Test

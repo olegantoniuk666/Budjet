@@ -8,8 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+Vash Dohod sostavlyaet  ${dohod}<br>
+Vash Rashod sostavlyaet ${rashod}
 
-<br><br><a href="costItemViewer">CostItemService</a><br><br><br>
+<br><a href="costItemViewer">Stati Zatrat</a><br><br><br>
+<a href="transactionViewer"> Transaction</a>
 
 
 

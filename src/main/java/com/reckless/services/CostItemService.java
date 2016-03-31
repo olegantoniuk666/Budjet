@@ -7,15 +7,10 @@ import com.reckless.businessobject.CostItem;
 public interface CostItemService {
 
 	public void addCostItem(CostItem item);
-
 	public CostItem getCostItem(String category);
-	
 	public List<CostItem> getAllCostItems();
-	
 	public void removeByCategory(String category);
-	
 	public int getPercentByAllCostItems();
-	
 	public double getPlanByCategory(String category);
 	public double getFactByCategory(String category);
 	public double getBalanceByCategory(String category);

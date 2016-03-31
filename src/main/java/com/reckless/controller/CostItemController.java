@@ -2,6 +2,9 @@ package com.reckless.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -21,40 +24,27 @@ public class CostItemController {
 	private CostItemService costItemService;
 
 	@RequestMapping(value = "/costItemViewer", method = RequestMethod.GET)
-	public String costItemViewer() {
-		return "costItemViewer";
-
-	}
-	@RequestMapping(value = "/costItemCreator", method = RequestMethod.GET)
-	public String costItemCreator() {
-		return "costItemCreator";
+	public ModelAndView costItemViewer() {
+			ModelAndView costItemViewer = new ModelAndView();
+			List<CostItem> allCostItems = costItemService.getAllCostItems();
+			costItemViewer.addObject("allCostItems", allCostItems);
+			costItemViewer.addObject("costItemService", costItemService);
+			costItemViewer.setViewName("costItemViewer");
+		return costItemViewer;
 
 	}
 
 	@RequestMapping(value = "/createCostItem", method = RequestMethod.POST)
-	public ModelAndView createCostItem(
+	public String createCostItem(
 			@RequestParam("category") String category,
 			@RequestParam("plan") int plan) {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("costItemViewer");
 		if (category != null && plan!=0) {
-			CostItem item = new CostItem();
-			item.setCategory(category);
-			item.setPlanPercent(plan);
+			CostItem item = new CostItem(category,plan);
 			costItemService.addCostItem(item);
-			model.addObject("costItem", item);
-		} else {
-			model.addObject("message", "input correct data");
 		}
-		return model;
+		return "costItemViewer";
+		
 	}
 
-	@RequestMapping(value = "showAllCostItems", method = RequestMethod.GET)
-	public ModelAndView showAllCostItems() {
-		ModelAndView model = new ModelAndView();
-		List<CostItem> allCostItems = costItemService.getAllCostItems();
-		model.addObject("allCostItems", allCostItems);
-		model.setViewName("AllCostItems");
-		return model;
-	}
+	
 }

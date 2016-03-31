@@ -27,7 +27,15 @@ public class SimpleCostItemService implements CostItemService {
 	}
 
 	public List<CostItem> getAllCostItems() {
-		List<CostItem> costItems = costItemRepository.findAll();
+		List<CostItem> costItems = new ArrayList<CostItem>(100); 
+				costItems = costItemRepository.findAll();
+				Iterator<CostItem>costItemIterator = costItems.iterator();
+				while(costItemIterator.hasNext()){
+					CostItem item = costItemIterator.next();
+					item.setPlan(getPlanByCategory(item.getCategory()));
+					item.setFakt(getFactByCategory(item.getCategory()));
+					item.setBalance(getBalanceByCategory(item.getCategory()));
+				}
 		return costItems;
 	}
 

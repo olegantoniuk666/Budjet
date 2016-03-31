@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form action="createCostItem" method="post">
-		Name Budget Item <input type="text" name="category"> <br>
-		Quantity in % <input type="text" name="plan">
+		Statya Zatrat <input type="text" name="category"> <br>
+		% ot dohoda <input type="text" name="plan">
 		 <input type="submit" name="create" value="create">
 	</form>
 

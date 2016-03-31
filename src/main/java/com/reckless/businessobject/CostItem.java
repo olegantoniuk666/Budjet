@@ -1,14 +1,13 @@
 package com.reckless.businessobject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
+import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 
+import com.reckless.services.CostItemService;
 import com.reckless.services.TransactionService;
 
 public class CostItem implements Serializable {
@@ -17,6 +16,8 @@ public class CostItem implements Serializable {
 
 	@Autowired
 	private TransactionService transactionService;
+	@Autowired
+	private CostItemService costItemService;
 
 	public CostItem() {
 		super();
@@ -40,10 +41,11 @@ public class CostItem implements Serializable {
 	private String id;
 	private String category;
 	private int planPercent;
+	
+	private double plan;
+	private double fakt;
+	private double balance;
 
-//	private int fakt;
-//	private int plan;
-//	private int balance;
 
 	public String getCategory() {
 		return category;
@@ -98,6 +100,31 @@ public class CostItem implements Serializable {
 	public int hashCode() {
 		return Objects.hash(id, category, planPercent);
 	}
+
+	public double getPlan() {
+		return plan;
+	}
+
+	public void setPlan(double plan) {
+		this.plan = plan;
+	}
+
+	public double getFakt() {
+		return fakt;
+	}
+
+	public void setFakt(double fakt) {
+		this.fakt = fakt;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
 
 	
 }

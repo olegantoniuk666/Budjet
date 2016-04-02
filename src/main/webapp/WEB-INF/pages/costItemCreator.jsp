@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="createCostItem" method="post">
+	
+	<form action="addCostItem" method="post">
 		Statya Zatrat <input type="text" name="category"> <br>
 		% ot dohoda <input type="text" name="plan">
 		 <input type="submit" name="create" value="create">

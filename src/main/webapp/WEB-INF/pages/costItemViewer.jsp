@@ -17,6 +17,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="mainPage">main</a>
 
 	<br><br><br>
 	<a href="costItemViewer"> Show all CostItems</a>
@@ -31,12 +32,12 @@
 		<c:forEach var="item" items="${allCostItems}">
 		
 		<tr>			
-			<th>${item.category}</th>
-			<th>${item.planPercent}</th>
-			<th>${item.plan}</th>
-			<th>${item.fakt}</th>
-			<th>${item.balance}</th>
-			
+			<td>${item.category}</td>
+			<td>${item.planPercent}</td>
+			<td>${item.plan}</td>
+			<td>${item.fakt}</td>
+			<td>${item.balance}</td>
+			<td><a href="removeCostItem?id=${item.id}">delete</a></td>	
 		</tr>
 		</c:forEach>
 	</table>

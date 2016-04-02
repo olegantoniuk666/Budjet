@@ -1,5 +1,6 @@
 package com.reckless.businessobject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
@@ -8,7 +9,12 @@ import org.springframework.data.annotation.Id;
 
 import com.reckless.config.DateUtils;
 
-public class Transaction {
+public class Transaction implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Transaction() {
 		super();
@@ -126,8 +132,10 @@ public class Transaction {
 	}
 	@Override
 	public String toString() {
-		return "Transaction [category=" + category + ", quantity=" + quantity
-				+ ", date=" + date + ", isIncome=" + isIncome + "]";
+		return "Transaction [id=" + id + ", category=" + category
+				+ ", quantity=" + quantity + ", date=" + date + ", isIncome="
+				+ isIncome + "]";
 	}
+
 
 }

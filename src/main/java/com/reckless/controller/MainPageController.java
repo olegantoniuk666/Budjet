@@ -20,8 +20,8 @@ public class MainPageController {
 	@RequestMapping(value = "/mainPage",method = RequestMethod.GET)
 	public ModelAndView mainPage(){
 		ModelAndView model = new ModelAndView();
-		int dohod = transactionService.getIncomeTransactionsQuantity();
-		int rashod = transactionService.getExpenseTransactionsQuantity();
+		int dohod = transactionService.getIncomeTransactionsQuantity(); // TODO please use English words :) and don't use "int" for money  
+		int rashod = transactionService.getExpenseTransactionsQuantity(); //TODO quantity - 
 		model.addObject("dohod", dohod);
 		model.addObject("rashod", rashod);
 		model.setViewName("mainPage");

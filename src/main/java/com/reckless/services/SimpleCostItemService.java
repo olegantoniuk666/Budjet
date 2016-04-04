@@ -70,7 +70,6 @@ public class SimpleCostItemService implements CostItemService {
 		return plan;
 	}
 
-	@Override
 	public double getFactByCategory(String category) {
 		List<Transaction> sortedByCostItemCategory = new ArrayList<Transaction>();
 		sortedByCostItemCategory = transactionService
@@ -86,7 +85,6 @@ public class SimpleCostItemService implements CostItemService {
 
 	}
 
-	@Override
 	public double getBalanceByCategory(String category) {
 		double balance = getPlanByCategory(category)-getFactByCategory(category);
 		return balance;

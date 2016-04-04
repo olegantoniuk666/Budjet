@@ -15,7 +15,7 @@ public class Transaction implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	public Transaction() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -40,11 +40,11 @@ public class Transaction implements Serializable {
 		this.quantity = quantity;
 		this.date = date;
 	}
-
+	//TODO !!!! fields should be defined on top of the class
 	@Id
 	private String id;
 	private String category;
-	private int quantity;
+	private int quantity;	//TODO i think you mean "amount" (or just "value"), quantity = "kilkist, odyn, dva - lyshe pro tsili rechi; groshi - ne tsila velychyna"
 	private Date date;
 	private Boolean isIncome = false;
 

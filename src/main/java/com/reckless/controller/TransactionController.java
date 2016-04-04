@@ -31,7 +31,7 @@ public class TransactionController {
 	private TransactionService transactionService; 
 	@Autowired
 	private TransactionRepository transactionRepository;
-	 @DateTimeFormat(pattern = "dd/MM/yyyy")
+	 @DateTimeFormat(pattern = "dd/MM/yyyy") //TODO cool, i didn't know about that :), but move it to factory or builder (see bellow comment)
      private Date date;
 	
 	@RequestMapping(value = "/transactionViewer",method = RequestMethod.GET)
@@ -65,11 +65,14 @@ public class TransactionController {
 										@RequestParam("date") @DateTimeFormat(pattern = "yyy-MM-dd")Date date,
 										@RequestParam("isIncome")Boolean isIncome,
 										HttpServletResponse response) {
+		// TODO !! consider to  move all logic with of creation transaction object to dedicated Builder (see builder pattern or maybe better FactoryMethod pattern)
+		
 		if (date==null){
 			date = DateUtils.asDate(LocalDate.now());
 		}
-		if (!isIncome){
-			Transaction transaction = new Transaction(category, money, date);	
+		
+		if (!isIncome){ // TODO !!! if/else doesn't make sense, just use Transaction(category, money, date, isIncome)
+			Transaction transaction = new Transaction(category, money, date);	// TOD 
 			transactionService.addTransaction(transaction);
 			
 		}else {
@@ -87,7 +90,7 @@ public class TransactionController {
 
 	@RequestMapping(value = "/removeTransaction", method = RequestMethod.GET)
 	public void deleteTransaction(@RequestParam("id")String id,HttpServletResponse response){
-		transactionRepository.delete(id);
+		transactionRepository.delete(id); //TODO !! since you have introduced service layer - better use service, even it will be just delegating method call
 		try {
 			response.sendRedirect("/transactionViewer");
 		} catch (IOException e) {

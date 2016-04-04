@@ -42,8 +42,8 @@ public class CostItemController {
 			@RequestParam("category") String category,
 			@RequestParam("plan") int plan,
 			HttpServletResponse response) {
-		if (category != null && plan!=0) {
-			CostItem item = new CostItem(category,plan);
+		if (category != null && plan!=0) { //TODO  move this check to factory method 
+			CostItem item = new CostItem(category,plan); //TODO  use factory method  CostItem.createCostItem (category,plan)
 			costItemService.addCostItem(item);
 		}
 		try {
